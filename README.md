@@ -270,7 +270,7 @@ taskDocument に代入された HTTP リクエストのボディは、Azure Func
 以上で Create 関数の追加は完了です！
 
 ## 4.2 Create 関数をテスト
-もう一つの関数を追加する前に、Create 関数の動作を確認してみましょう。
+Create 関数の動作を確認してみましょう。
 
 1. **テストと実行** を選択し、**入力** タブの **ボディ** のコードを次のコードで置き換えます。
 
@@ -290,7 +290,16 @@ taskDocument に代入された HTTP リクエストのボディは、Azure Func
 
 実行結果の **出力** タブで、**HTTP 応答コード** が `200 OK` になっていれば OK です！
 
-Read 関数を追加して、本当にデータが追加されたかどうかを確認してみましょう。
+
+ここで一度、プロキシ機能の設定に使うために、Create 関数の URL をメモしておきます。
+関数の URL は **コードとテストページ** の上部のメニューバーにある **関数の URL の取得** を選択することで取得できます。
+
+|![](./img/function-create-func-14.png)|
+|:-:|
+
+例えば、`https://mstechcamp-api.azurewebsites.net/api/Create?` のような URL をメモしておきます。
+
+それでは、Read 関数を追加して、本当にデータが追加されたかどうかを確認してみましょう。
 
 ### 4.3 Read 関数を追加
 これまでと同様の手順で Read 関数を追加していきます。
@@ -381,6 +390,14 @@ module.exports = async function (context, req) {
 
 以上で Read 関数の追加は完了です！
 
+最後に、Create 関数と同様に、Read 関数の URL もメモしておきましょう。
+関数の URL は **コードとテストページ** の上部のメニューバーにある **関数の URL の取得** を選択することで取得できます。
+
+|![](./img/function-create-func-14.png)|
+|:-:|
+
+例えば、`https://mstechcamp-api.azurewebsites.net/api/Read?` のような URL をメモしておきます。
+
 ## 4.4 Read 関数をテスト
 まずは、一覧取得をテストしましょう。
 
@@ -397,9 +414,10 @@ module.exports = async function (context, req) {
 |![](./img/function-create-func-11.png)|
 |:-:|
 
-表示されている `id` の値（例えば `53a369ec-3171-41c7-b4c4-8a1e42c5a402`）をメモしておきます。
+<details>
+<summary>（時間があれば）id を指定する場合のテストをしましょう。</summary>
 
-この `id` を使って、id を指定する場合のテストをしましょう。
+表示されている `id` の値（例えば `53a369ec-3171-41c7-b4c4-8a1e42c5a402`）をメモしておきます。
 
 1. **テストと実行** を選択し、**入力** タブの **HTTP メソッド** を `GET` に設定します。
    そして、**クエリ** を以下のように設定します。 
@@ -420,6 +438,8 @@ module.exports = async function (context, req) {
 |:-:|
 
 4. もしデータベースに存在しない `id` を **クエリ** の **値** に入力した場合は、`Not found.` と表示されるはずです。
+
+</details>
 
 以上で2つの関数の追加とテストは完了です！
 
@@ -458,6 +478,9 @@ Azure Functions のプロキシ機能を設定することで、これらを実�
 |![](./img/function-proxy-2.png)|
 |:-:|
 
+<details>
+<summary>（時間があれば）残りの2つのプロキシも作成しましょう。</summary>
+
 #### `GET /tasks/{id}`
 
 | 項目 | 設定値 |
@@ -482,6 +505,8 @@ Azure Functions のプロキシ機能を設定することで、これらを実�
 
 |![](./img/function-proxy-4.png)|
 |:-:|
+
+</details>
 
 3. 合計で3つのプロキシが作成されていることを確認します。
 
