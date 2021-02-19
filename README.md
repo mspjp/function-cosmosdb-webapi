@@ -11,6 +11,7 @@
 タスクの例を次に示します。
 ```js
 {
+    "id": "1"                // タスクのID
     "task": "あれとこれをする", // タスクの内容
     "userId": "123456",      // タスク作成者のユーザID
     "duedate": "2021/02/30"  // タスクの期日
@@ -49,7 +50,6 @@
 | リソースグループ | 新規作成で任意 | mstechcamp |
 | アカウント名 | 任意（一意の名前） | mstechcamp |
 | API | コア（SQL） | |
-| Notebooks | オフ | |
 | 場所 | 任意 | （Asia Pacific）東日本 |
 | 容量モード | プロビジョニングされたスループット | |
 | Free レベルの割引の適用 | 適用 | |
@@ -95,7 +95,7 @@ Azure Functions を設定するときに自動的に作成することも可能�
 |-----|-------|
 | Database id | taskDatabase |
 | Provision database throughput | チェックを入れる |
-| Throughput | Manual（400） |
+| Throughput | 400 |
 | Container id | taskContainer |
 | Partition key | /userId |
 
@@ -252,8 +252,8 @@ module.exports = async function (context, req) {
         context.res = {
             status: 200
         };
-    }
-    else {
+
+    } else {
         // 失敗
         context.res = {
             status: 400,
@@ -390,14 +390,6 @@ module.exports = async function (context, req) {
 
 以上で Read 関数の追加は完了です！
 
-最後に、Create 関数と同様に、Read 関数の URL もメモしておきましょう。
-関数の URL は **コードとテストページ** の上部のメニューバーにある **関数の URL の取得** を選択することで取得できます。
-
-|![](./img/function-create-func-14.png)|
-|:-:|
-
-例えば、`https://mstechcamp-api.azurewebsites.net/api/Read?` のような URL をメモしておきます。
-
 ## 4.4 Read 関数をテスト
 まずは、一覧取得をテストしましょう。
 
@@ -443,11 +435,22 @@ module.exports = async function (context, req) {
 
 以上で2つの関数の追加とテストは完了です！
 
+最後に、Create 関数と同様に、Read 関数の URL もメモしておきましょう。
+関数の URL は **コードとテストページ** の上部のメニューバーにある **関数の URL の取得** を選択することで取得できます。
+
+|![](./img/function-create-func-14.png)|
+|:-:|
+
+例えば、`https://mstechcamp-api.azurewebsites.net/api/Read?` のような URL をメモしておきます。
+
+この URL にブラウザでアクセスすると、Read 関数を呼び出すことができます。
+
+|![](./img/function-create-func-15.png)|
+|:-:|
+
+
 ## 5. Azure Functions のプロキシ機能を設定
 ここまでの作業で、Web API は最低限動作するようになりました。
-
-例えば、Read 関数を `https://mstechcamp-api.azurewebsites.net/api/Read` のように呼び出すことができます。
-この各関数の URL は **コードとテストページ** の上部のメニューバーにある **関数の URL の取得** を選択することで取得できます。
 
 しかし、id を指定するには `/api/Read?id=abc123` のようにクエリパラメータとして指定しなければなりません。
 本資料の一番最初で説明したように、今回は `/tasks/{id}` という形式にしたいです。
@@ -478,9 +481,6 @@ Azure Functions のプロキシ機能を設定することで、これらを実�
 |![](./img/function-proxy-2.png)|
 |:-:|
 
-<details>
-<summary>（時間があれば）残りの2つのプロキシも作成しましょう。</summary>
-
 #### `GET /tasks/{id}`
 
 | 項目 | 設定値 |
@@ -505,8 +505,6 @@ Azure Functions のプロキシ機能を設定することで、これらを実�
 
 |![](./img/function-proxy-4.png)|
 |:-:|
-
-</details>
 
 3. 合計で3つのプロキシが作成されていることを確認します。
 
